@@ -1,9 +1,9 @@
-<app-header></app-header>
+<app-header (recipesSelected)="recipeSelected = true; shoppingListSelected = false" (shoppingListSelected)="shoppingListSelected=true;recipeSelected=false"></app-header>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <app-recipes></app-recipes>
-      <app-shopping-list></app-shopping-list>
+      <app-recipes *ngIf="recipeSelected"></app-recipes>
+      <app-shopping-list *ngIf="shoppingListSelected"></app-shopping-list>
     </div>
   </div>
 </div>
