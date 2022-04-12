@@ -1,0 +1,130 @@
+Angular Befehle:
+
+Projekt erstellen:
+	ng new 'name'
+	
+Projekt testen (localhost:4200):
+	ng serve
+	
+Component erstellen:
+	ng generate component 'name' --spec false
+	
+Component im unterordner erstellen:
+	ng generate component pfadUnterApp/'name' --spec false
+	
+Bootstrap 3 installieren:
+	npm install --save bootstrap@3
+	in angular.json folgendes unter [styles] hinzufügen: '"node_modules/bootstrap/dist/css/bootstrap.min.css",' als oberstes
+	
+Importiertes Projekt verwenden:
+	npm install
+	
+	
+Angular Code:
+<p *ngIf="boolean">Das wird nur angzeigt wenn der boolean === true ist</p>
+
+<p *ngFor="let irgendeinName of array; let i = index">Hiervon werden soviele elemente erzeugt wie im array sind</p> //zweiter Teil optional
+																											'i' zählt die erstellten elemente hoch
+
+//@Input() variablenDeklaration; //@Input('alias_in_anderen_components') importiert aus angulare/core macht die Variable für untergeordnete Components zugänglich
+
+@Input() variablenDeklaration; //Im untergeordneten Component, importiert aus dem Überliegeneden component das was dort in der Componentdeklaration mit 
+							//[variablenDeklaration] = "zuÜbergebendeVaribale" deklariert wird.
+
+<app (eventName)="methodeAusfuehren($event)"></app> //methode die bei ausgeführtem event ausgeführt werden soll
+@Output('optionalerName für übergeordnetes Component (siehe input)') eventName = new EventEmitter<{Objekt struktur/datentyp}>(); //datentyp ohne {}
+																	//im untergeordneten Component definieren (output aus angulare/core importieren)
+this.eventName.emit({Objekt das übergeben werden soll});
+
+<p>{{ variable aus typescript }}</p>
+
+<button (click)="methodeOderCode()">Öffnet beim event in den Klammern die methode</button>
+
+<button [disabled]="boolean" >Wenn boolean === true ist der button disabled</button>
+
+<input type="text" [(ngModel)]="string" > //Bei ängerung des Wertes im textfeld wird der wert des Strings auf den Wert gesetzt,
+											//bei änderung des Strings steht im Textfeld der neue wert des Strings
+
+<input type="text" class="form-control" #variablenNameDesInputfelds>
+<button class="btn btn-primary" (click)="methode(variablenNameDesInputfelds)">
+Das Textfeld wird in die Methode übergeben -> mit variablenNameDesInputfelds.value bekommt man den Text</button>
+
+<input type="text" class="form-control" #nameDesTextfeldes> //zugang zum DOM Element bekommen
+@ViewChild('nameDesTextfelds', {static: true}) nameDerVariable: ElementRef; //das selbe mit @ContentChild für injezierte Elemente (ng-content)
+this.nameDerVariable.nativeElement.value;
+
+<app-component>
+Dieser Code wird in dem eingebundenen Component an der stelle von ng content ausgeführt
+</app-component>
+//nachfolgend im app-component
+<p>Hier drunter wird der code ausgeführt
+<ng-content></ng-content>
+
+export class ServerElementComponent implements OnInit, OnChanges, AfterViewInit, AfterContentChecked, OnDestroy, AfterContentInit {
+  constructor() {
+    console.log('constructor called!');
+  }
+  ngOnDestroy() {
+    console.log('ngOnDestroy called!');
+  }
+  ngAfterContentChecked() {
+    console.log('ngAfterContenChecked called!');
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges called: ');
+    console.log(changes);
+  }
+  ngAfterViewInit() {
+    console.log('nachdem der DOM geladen wurde!');
+  }
+  ngAfterContentInit() {
+    console.log('nachdem der injezierte DOM geladen wurde (ng-content)!');
+  }
+  ngOnInit() {
+    console.log('bevor der DOM geladen wurde!');
+  }
+}
+
+
+
+Styles:
+<button class="btn btn-primary">Name</button>
+<label>Label für das darunterliegende Element</label>
+<input type="text" class="form-control">
+<p [ngStyle]="{color: i > 5 ? 'white' : 'red'}">
+<p [ngClass]="{'cssClass' : i > 5}">
+
+in @Component folgendes hinzufügen:
+	encapsulation: ViewEncapsulation.None //führt dazu das alle Styles in diesem Component global sind. Import ViewEncapsulation aus angulare/core
+
+Navbar:
+<nav class="navbar navbar-default"> // collapsed = true; in typescript einfügen
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span> //anzahl elemente
+      </button>
+      <a routerLink="/" class="navbar-brand">Titel</a>
+    </div>
+    <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
+      <ul class="nav navbar-nav">
+        <li><a routerLink="/">Link auf ersten Component</a></li>
+        <li><a routerLink="/">Link auf zweiten Component</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right"> //navbar-right zusätzlich setzt das element nach rechts
+        <li class="dropdown">
+          <a routerLink="/" class="dropdown-toggle" role="button">Ausfahrbares Element <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/">Ausfahrendes Element 1</a></li>
+            <li><a routerLink="/">Ausfahrendes Element 2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+BUGS:
+
+Wenn this nicht funktioniert (undefined)
+this.methode.bind(this); //beim methodenaufruf
