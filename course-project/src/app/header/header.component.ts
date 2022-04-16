@@ -6,8 +6,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Output() shoppingListSelected = new EventEmitter<null>();
-  @Output() recipesSelected = new EventEmitter<null>();
 
   collapsed = true;
 
