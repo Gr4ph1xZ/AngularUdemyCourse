@@ -1,1 +1,3 @@
-"# AngularUdemyCourse" 
+# AngularUdemyCourse
+
+Udemy course project
